@@ -19,7 +19,7 @@ with columns[0]:
     url = st.text_input("Enter a Youtube Video URL:")
 
 with columns[1]:
-    target_lang = st.selectbox("Target Language", list(languages.keys()))
+    target_lang = st.selectbox("Target Language", languages.keys())
 
 if st.button("Get Transcript", use_container_width=True):
     if url:
@@ -30,7 +30,7 @@ if st.button("Get Transcript", use_container_width=True):
                     loader = YoutubeLoader.from_youtube_url("https://www.youtube.com/watch?v=" + video_id,
                                                         add_video_info=False,
                                                         language=["ur", "hi", "en"],
-                                                        translation=languages[target_lang])
+                                                        translation=languages.get(target_lang))
                     data = loader.load()
 
                 transcript = data[0].page_content
