@@ -3,3 +3,4 @@ langchain
 langchain_community
 pytube
 youtube_transcript_api
+backoff
