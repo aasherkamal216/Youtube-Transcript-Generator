@@ -43,7 +43,7 @@ if st.button("Get Transcript", use_container_width=True):
                         data = loader.load()
 
                         if data:
-                            st.write(data)
+
                             transcript = data[0].page_content
             
                             with cols[1].container(height=250, border=True):
@@ -68,6 +68,7 @@ if st.button("Get Transcript", use_container_width=True):
                     except Exception as e:
                         st.error(f"An unexpected error occurred: {e}.", icon="❌")
                         break
+                st.write("fdsfdsfsd")
         else:
             st.error("Please enter a valid URL", icon="❌")
 
