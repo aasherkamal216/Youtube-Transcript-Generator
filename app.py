@@ -27,14 +27,15 @@ if st.button("Get Transcript", use_container_width=True):
     if url:
         if "youtube.com" in url or "youtu.be" in url:
             cols = st.columns([1,4])
+            video_id = YoutubeLoader.extract_video_id(url)
+            cols[0].image(f"https://img.youtube.com/vi/{video_id}/0.jpg", caption="Video Thumbnail")
+            
             attempt = 0
             success = False
             with st.spinner(":green[Loading the transcript]"):
                 while attempt < 10 and not success:
                     attempt += 1
                     try:
-                        video_id = YoutubeLoader.extract_video_id(url)
-                        cols[0].image(f"https://img.youtube.com/vi/{video_id}/0.jpg", caption="Video Thumbnail")
                         loader = YoutubeLoader.from_youtube_url("https://www.youtube.com/watch?v=" + video_id,
                                                             add_video_info=True,
                                                             language=["hi", "ur", "en"],
