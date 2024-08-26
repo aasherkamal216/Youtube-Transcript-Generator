@@ -43,6 +43,7 @@ if st.button("Get Transcript", use_container_width=True):
                         data = loader.load()
 
                         if data:
+                            st.write(data)
                             transcript = data[0].page_content
             
                             with cols[1].container(height=250, border=True):
