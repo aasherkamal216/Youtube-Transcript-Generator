@@ -28,7 +28,7 @@ if st.button("Get Transcript", use_container_width=True):
                 with st.spinner(":green[Loading the transcript]"):
                     video_id = YoutubeLoader.extract_video_id(url)
                     loader = YoutubeLoader.from_youtube_url("https://www.youtube.com/watch?v=" + video_id,
-                                                        add_video_info=True,
+                                                        add_video_info=False,
                                                         language=["ur", "hi", "en"],
                                                         translation=languages[target_lang])
                     data = loader.load()
