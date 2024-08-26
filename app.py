@@ -29,7 +29,7 @@ if st.button("Get Transcript", use_container_width=True):
             attempt = 0
             success = False
             with st.spinner(":green[Loading the transcript]"):
-                while attempt < 10 and not success:
+                while attempt < 20 and not success:
                     attempt += 1
                     try:
                         
@@ -59,7 +59,7 @@ if st.button("Get Transcript", use_container_width=True):
                         if attempt == 10:
                             st.error(f"Pytube error: {e}", icon="❌")
                         else:
-                            time.sleep(1)
+                            time.sleep(2)
                             
                     except Exception as e:
                         st.error(f"An unexpected error occurred: {e}.", icon="❌")
