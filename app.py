@@ -29,7 +29,7 @@ if st.button("Get Transcript", use_container_width=True):
             attempt = 0
             success = False
             with st.spinner(":green[Loading the transcript]"):
-                while attempt < 20 and not success:
+                while attempt < 10 and not success:
                     attempt += 1
                     try:
                         
@@ -39,24 +39,25 @@ if st.button("Get Transcript", use_container_width=True):
                                                             language=["hi", "ur", "en"],
                                                             translation=languages[target_lang])
                         data = loader.load()
-        
-                        transcript = data[0].page_content
-        
-                        with st.container(height=250, border=True):
-                            st.write(transcript)
-        
-                        st.download_button(
-                            label="Download Transcript",
-                            key="download",
-                            data=transcript,
-                            file_name='transcript.txt',
-                            mime='text/plain',
-                            type="primary"
-                        )
-                        success = True
+
+                        if data:
+                            transcript = data[0].page_content
+            
+                            with st.container(height=250, border=True):
+                                st.write(transcript)
+            
+                            st.download_button(
+                                label="Download Transcript",
+                                key="download",
+                                data=transcript,
+                                file_name='transcript.txt',
+                                mime='text/plain',
+                                type="primary"
+                            )
+                            success = True
                         
                     except PytubeError as e:
-                        if attempt == 20:
+                        if attempt == 10:
                             st.error(f"Pytube error: {e}", icon="❌")
                         else:
                             time.sleep(2)
