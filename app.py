@@ -28,12 +28,12 @@ if st.button("Get Transcript", use_container_width=True):
                 with st.spinner(":green[Loading the transcript]"):
                     video_id = YoutubeLoader.extract_video_id(url)
                     loader = YoutubeLoader.from_youtube_url("https://www.youtube.com/watch?v=" + video_id,
-                                                        add_video_info=False,
+                                                        add_video_info=True,
                                                         language=["ur", "hi", "en"],
                                                         translation=languages[target_lang])
                     data = loader.load()
 
-                transcript = data
+                transcript = data[0].page_content
 
                 with st.container(height=250, border=True):
                     st.write(transcript)
