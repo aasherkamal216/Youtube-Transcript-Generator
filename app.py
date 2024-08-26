@@ -11,16 +11,6 @@ st.markdown("""
     </h1>
 """, unsafe_allow_html=True)
 
-@backoff.on_exception(backoff.expo, (pytube.exceptions.PytubeError, ValueError), max_time=60)
-def get_transcript(video_id, target_lang):
-    loader = YoutubeLoader.from_youtube_url("https://www.youtube.com/watch?v=" + video_id,
-                                    add_video_info=True,
-                                    language=["ur", "hi", "en"],
-                                    translation=languages[target_lang])
-    data= loader.load()
-    transcript = data[0].page_content
-    return transcript
-    
 languages = {"Urdu":"ur", "Hindi":"hi", "English":"en", "French":"fr", "Arabic":"ar"}
 
 columns = st.columns([4,2])
@@ -37,8 +27,13 @@ if st.button("Get Transcript", use_container_width=True):
             try:
                 with st.spinner(":green[Loading the transcript]"):
                     video_id = YoutubeLoader.extract_video_id(url)
+                    loader = YoutubeLoader.from_youtube_url("https://www.youtube.com/watch?v=" + video_id,
+                                                        add_video_info=True,
+                                                        language=["ur", "hi", "en"],
+                                                        translation=languages[target_lang])
+                    data = loader.load()
 
-                    transcript = get_transcript(video_id, target_lang)
+                transcript = data[0].page_content
 
                 with st.container(height=250, border=True):
                     st.write(transcript)
