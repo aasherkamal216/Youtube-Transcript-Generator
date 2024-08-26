@@ -36,7 +36,7 @@ if st.button("Get Transcript", use_container_width=True):
                         video_id = YoutubeLoader.extract_video_id(url)
                         loader = YoutubeLoader.from_youtube_url("https://www.youtube.com/watch?v=" + video_id,
                                                             add_video_info=True,
-                                                            language=["ur", "hi", "en"],
+                                                            language=["hi", "ur", "en"],
                                                             translation=languages[target_lang])
                         data = loader.load()
         
@@ -56,7 +56,7 @@ if st.button("Get Transcript", use_container_width=True):
                         success = True
                         
                     except PytubeError as e:
-                        if attempt == 10:
+                        if attempt == 20:
                             st.error(f"Pytube error: {e}", icon="❌")
                         else:
                             time.sleep(2)
