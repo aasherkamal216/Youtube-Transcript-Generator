@@ -1,5 +1,7 @@
 import streamlit as st
 from langchain_community.document_loaders import YoutubeLoader
+from pytube.exceptions import PytubeError
+import time
 
 st.set_page_config(page_icon="🔗", page_title="Youtube Video Transcription")
 
@@ -24,31 +26,43 @@ with columns[1]:
 if st.button("Get Transcript", use_container_width=True):
     if url:
         if "youtube.com" in url or "youtu.be" in url:
-            try:
-                with st.spinner(":green[Loading the transcript]"):
-                    video_id = YoutubeLoader.extract_video_id(url)
-                    loader = YoutubeLoader.from_youtube_url("https://www.youtube.com/watch?v=" + video_id,
-                                                        add_video_info=True,
-                                                        language=["ur", "hi", "en"],
-                                                        translation=languages[target_lang])
-                    data = loader.load()
-
-                transcript = data[0].page_content
-
-                with st.container(height=250, border=True):
-                    st.write(transcript)
-
-                st.download_button(
-                    label="Download Transcript",
-                    key="download",
-                    data=transcript,
-                    file_name='transcript.txt',
-                    mime='text/plain',
-                    type="primary"
-                )
-                
-            except Exception as e:
-                st.error(f"An exception occurred: {e}", icon="❌")
+            attempt = 0
+            success = False
+            while attempt < 10 and not success:
+                attempt += 1
+                try:
+                    with st.spinner(":green[Loading the transcript]"):
+                        video_id = YoutubeLoader.extract_video_id(url)
+                        loader = YoutubeLoader.from_youtube_url("https://www.youtube.com/watch?v=" + video_id,
+                                                            add_video_info=True,
+                                                            language=["ur", "hi", "en"],
+                                                            translation=languages[target_lang])
+                        data = loader.load()
+    
+                    transcript = data[0].page_content
+    
+                    with st.container(height=250, border=True):
+                        st.write(transcript)
+    
+                    st.download_button(
+                        label="Download Transcript",
+                        key="download",
+                        data=transcript,
+                        file_name='transcript.txt',
+                        mime='text/plain',
+                        type="primary"
+                    )
+                    success = True
+                    
+                except PytubeError as e:
+                    if attempt == 10:
+                        st.error(f"Pytube error: {e}", icon="❌")
+                    else:
+                        time.sleep(1)
+                        
+                except Exception as e:
+                    st.error(f"An unexpected error occurred: {e}.", icon="❌")
+                    break
         else:
             st.error("Please enter a valid URL", icon="❌")
 
