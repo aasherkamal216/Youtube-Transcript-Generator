@@ -37,7 +37,7 @@ if st.button("Get Transcript", use_container_width=True):
                     attempt += 1
                     try:
                         loader = YoutubeLoader.from_youtube_url("https://www.youtube.com/watch?v=" + video_id,
-                                                            add_video_info=True,
+                                                            add_video_info=False,
                                                             language=["hi", "ur", "en"],
                                                             translation=languages[target_lang],
                                                             continue_on_failure=True)
