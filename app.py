@@ -39,7 +39,8 @@ if st.button("Get Transcript", use_container_width=True):
                         loader = YoutubeLoader.from_youtube_url("https://www.youtube.com/watch?v=" + video_id,
                                                             add_video_info=True,
                                                             language=["hi", "ur", "en"],
-                                                            translation=languages[target_lang])
+                                                            translation=languages[target_lang],
+                                                            continue_on_failure=True)
                         data = loader.load()
 
                         if data:
